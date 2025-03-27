@@ -20,3 +20,7 @@ variable "cloudflare_token" {
   description = "The Cloudflare users API token."
   type        = string
 }
+
+variable "azure_location" {
+  default = "westus2"
+}

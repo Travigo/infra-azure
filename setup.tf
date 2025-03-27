@@ -12,9 +12,34 @@ terraform {
       source = "cloudflare/cloudflare"
       version = "4.48.0"
     }
+    azurerm = {
+      source  = "hashicorp/azurerm"
+    }
+    kubectl = {
+      source  = "alekc/kubectl"
+      version = "~> 2.0"
+    }
   }
 
   required_version = ">= 1.5"
+}
+
+terraform {
+  backend "azurerm" {
+    use_cli              = true
+    resource_group_name = "Manual"
+    storage_account_name = "travigoterraform"
+    container_name       = "state"
+    key                  = "terraform.tfstate"
+  }
+}
+
+provider "azurerm" {
+  features {
+    resource_group {
+      prevent_deletion_if_contains_resources = false
+    }
+  }
 }
 
 provider "cloudflare" {

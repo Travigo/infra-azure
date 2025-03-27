@@ -1,0 +1,39 @@
+locals {
+  nodes = {
+    "workers" = {
+      name            = "workers"
+      vm_size         = "Standard_D4as_v5"
+      node_count      = 1
+      priority        = "Spot"
+      eviction_policy = "Delete"
+      os_disk_size_gb = 32
+      vnet_subnet_id  = azurerm_subnet.kube.id
+    }
+  }
+}
+
+module "aks" {
+  source  = "Azure/aks/azurerm"
+  version = "9.4.1"
+
+  prefix              = "travigo-kube"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = var.azure_location
+  sku_tier            = "Free"
+  vnet_subnet_id      = azurerm_subnet.kube.id
+  node_pools          = local.nodes
+
+  log_analytics_workspace_enabled   = false
+  rbac_aad                          = true
+  rbac_aad_managed                  = true
+  role_based_access_control_enabled = true
+
+  // System pool
+  agents_pool_name    = "system"
+  agents_count        = 1
+  enable_auto_scaling = false
+  agents_size         = "Standard_B2pls_v2"
+  os_disk_size_gb     = 32
+  only_critical_addons_enabled = true
+  temporary_name_for_rotation  = "systemrotate"
+}

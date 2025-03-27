@@ -16,16 +16,21 @@ resource "helm_release" "ingress-nginx" {
 
   namespace = kubernetes_namespace.ingress-nginx.metadata[0].name
 
-  set {
-    name  = "controller.service.type"
-    value = "ClusterIP"
-  }
-  set {
-    name = "controller.resources.requests.cpu"
-    value = "10m"
-  }
-  set {
-    name  = "defaultBackend.enabled"
-    value = "true"
-  }
+  values = [
+  <<-EOF
+  controller:
+    service:
+      type: ClusterIP
+
+    admissionWebhooks:
+      enabled: false
+
+    resources:
+      requests:
+        cpu: 10m
+
+  defaultBackend:
+    enabled: true
+  EOF
+  ]
 }

@@ -33,20 +33,20 @@ resource "helm_release" "redis" {
 
   namespace = kubernetes_namespace.redis.metadata[0].name
 
-  set {
-    name  = "global.redis.password"
-    value = random_password.redis-password.result
-  }
-  set {
-    name = "master.persistence.enabled"
-    value = "false"
-  }
-  set {
-    name = "replica.persistence.enabled"
-    value = "false"
-  }
-  set {
-    name = "replica.replicaCount"
-    value = "0"
-  }
+  values = [
+  <<-EOF
+  global:
+    redis:
+      password: ${random_password.redis-password.result}
+
+  master:
+    persistence:
+      enabled: false
+
+  replica:
+    persistence:
+      enabled: false
+    replicaCount: 0
+  EOF
+  ]
 }
