@@ -22,5 +22,5 @@ variable "cloudflare_token" {
 }
 
 variable "azure_location" {
-  default = "westus2"
+  default = "swedencentral"
 }

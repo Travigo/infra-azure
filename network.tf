@@ -1,6 +1,6 @@
 resource "azurerm_resource_group" "main" {
   location = var.azure_location
-  name     = "travigo-app"
+  name     = "travigo"
 }
 
 resource "azurerm_virtual_network" "core" {

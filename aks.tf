@@ -2,7 +2,7 @@ locals {
   nodes = {
     "workers" = {
       name            = "workers"
-      vm_size         = "Standard_D8as_v5"
+      vm_size         = "Standard_D8s_v6"
       node_count      = 1
       priority        = "Spot"
       eviction_policy = "Delete"
@@ -11,7 +11,7 @@ locals {
     },
     "medium-batch" = {
       name            = "mbatch"
-      vm_size         = "Standard_D4as_v5"
+      vm_size         = "Standard_D4s_v6"
       node_count      = 0
       priority        = "Spot"
       eviction_policy = "Delete"
@@ -30,7 +30,7 @@ locals {
     },
     "large-batch" = {
       name            = "lbatch"
-      vm_size         = "Standard_D8as_v5"
+      vm_size         = "Standard_D8s_v6"
       node_count      = 0
       priority        = "Spot"
       eviction_policy = "Delete"
@@ -54,7 +54,7 @@ module "aks" {
   source  = "Azure/aks/azurerm"
   version = "9.4.1"
 
-  prefix              = "travigo-kube"
+  prefix              = "travigo"
   resource_group_name = azurerm_resource_group.main.name
   location            = var.azure_location
   sku_tier            = "Free"
@@ -62,6 +62,7 @@ module "aks" {
   node_pools          = local.nodes
 
   log_analytics_workspace_enabled   = true
+  rbac_aad_azure_rbac_enabled       = true
   rbac_aad                          = true
   rbac_aad_managed                  = true
   role_based_access_control_enabled = true

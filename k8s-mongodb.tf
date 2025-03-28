@@ -126,7 +126,7 @@ resource "kubernetes_manifest" "mongodb-database-crd" {
                   resources = {
                     limits = {
                       cpu = "14"
-                      memory = "10Gi"
+                      memory = "20Gi"
                     }
                     requests = {
                       cpu = "0.1"
@@ -139,7 +139,7 @@ resource "kubernetes_manifest" "mongodb-database-crd" {
                   resources = {
                     limits = {
                       cpu = "4"
-                      memory = "1Gi"
+                      memory = "4Gi"
                     }
                     requests = {
                       cpu = "0.1"
