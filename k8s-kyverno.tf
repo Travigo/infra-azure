@@ -20,9 +20,9 @@ resource "helm_release" "kyverno" {
   <<-EOF
   global:
     tolerations:
-    - key: "kubernetes.azure.com/scalesetpriority"
+    - key: "CriticalAddonsOnly"
       operator: "Equal"
-      value: "spot"
+      value: "true"
       effect: "NoSchedule"
   EOF
   ]

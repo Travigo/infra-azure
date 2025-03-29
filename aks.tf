@@ -61,7 +61,7 @@ module "aks" {
   vnet_subnet_id      = azurerm_subnet.kube.id
   node_pools          = local.nodes
 
-  log_analytics_workspace_enabled   = true
+  log_analytics_workspace_enabled   = false
   rbac_aad_azure_rbac_enabled       = true
   rbac_aad                          = true
   rbac_aad_managed                  = true
