@@ -18,6 +18,9 @@ resource "helm_release" "airflow" {
 
   values = [
   <<-EOF
+    defaultAirflowTag: "2.10.5"
+    airflowVersion: "2.10.5"
+
     webserverSecretKey: notsosecrettravigo
     multiNamespaceMode: true
 
