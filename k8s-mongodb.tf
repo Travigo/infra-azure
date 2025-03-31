@@ -58,7 +58,7 @@ resource "kubernetes_manifest" "mongodb-database-crd" {
     spec = {
       members = 1
       type = "ReplicaSet"
-      version = "7.0.12"
+      version = "7.0.18"
 
       security = {
         authentication = {
@@ -97,6 +97,7 @@ resource "kubernetes_manifest" "mongodb-database-crd" {
                 name = "data-volume"
               }
               spec = {
+                storageClassName = "premium2-disk-sc"
                 resources = {
                   requests = {
                     storage = "100Gi"
@@ -120,17 +121,25 @@ resource "kubernetes_manifest" "mongodb-database-crd" {
 
           template = {
             spec = {
+              tolerations = [
+                {
+                  key = "kube.travigo.app/role"
+                  operator = "Equal"
+                  value = "datastore"
+                  effect = "NoSchedule"
+                }
+              ]
               containers = [
                 {
                   name = "mongod"
                   resources = {
                     limits = {
-                      cpu = "14"
-                      memory = "20Gi"
+                      cpu = "8"
+                      memory = "30Gi"
                     }
                     requests = {
                       cpu = "0.1"
-                      memory = "1Gi"
+                      memory = "26Gi"
                     }
                   }
                 },

@@ -1,13 +1,37 @@
 locals {
   nodes = {
-    "workers" = {
-      name            = "workers"
-      vm_size         = "Standard_D8s_v6"
+    "db" = {
+      name            = "db"
+      vm_size         = "Standard_E4s_v6"
       node_count      = 1
       priority        = "Spot"
       eviction_policy = "Delete"
       os_disk_size_gb = 48
       vnet_subnet_id  = azurerm_subnet.kube.id
+      zones = ["1"]
+      node_labels = {
+        "kube.travigo.app/role" = "datastore"
+        "kubernetes.azure.com/scalesetpriority" = "spot"
+      },
+      node_taints = [
+        "kubernetes.azure.com/scalesetpriority=spot:NoSchedule",
+        "kube.travigo.app/role=datastore:NoSchedule",
+      ]
+    },
+    "workers" = {
+      name            = "workers"
+      vm_size         = "Standard_D4s_v6"
+      node_count      = 1
+      priority        = "Spot"
+      eviction_policy = "Delete"
+      os_disk_size_gb = 48
+      vnet_subnet_id  = azurerm_subnet.kube.id
+      node_labels = {
+        "kubernetes.azure.com/scalesetpriority" = "spot"
+      }
+      node_taints = [
+        "kubernetes.azure.com/scalesetpriority=spot:NoSchedule"
+      ]
     },
     "medium-batch" = {
       name            = "mbatch"
@@ -19,9 +43,11 @@ locals {
       vnet_subnet_id  = azurerm_subnet.kube.id
       node_labels = {
         "kube.travigo.app/batch-burst-size" = "medium"
+        "kubernetes.azure.com/scalesetpriority" = "spot"
       },
       node_taints = [
-        "kube.travigo.app/batch-burst=true:NoSchedule"
+        "kube.travigo.app/batch-burst=true:NoSchedule",
+        "kubernetes.azure.com/scalesetpriority=spot:NoSchedule"
       ]
 
       enable_auto_scaling = true
@@ -38,9 +64,11 @@ locals {
       vnet_subnet_id  = azurerm_subnet.kube.id
       node_labels = {
         "kube.travigo.app/batch-burst-size" = "large"
+        "kubernetes.azure.com/scalesetpriority" = "spot"
       },
       node_taints = [
-        "kube.travigo.app/batch-burst=true:NoSchedule"
+        "kube.travigo.app/batch-burst=true:NoSchedule",
+        "kubernetes.azure.com/scalesetpriority=spot:NoSchedule"
       ]
 
       enable_auto_scaling = true

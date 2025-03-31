@@ -56,6 +56,14 @@ resource "helm_release" "airflow" {
         branch: main
         subPath: "airflow/dags"
         period: 30s
+
+    triggerer:
+      persistence:
+        size: 4Gi
+
+    workers:
+      persistence:
+        size: 8Gi
   EOF
   ] 
 }
