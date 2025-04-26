@@ -8,7 +8,6 @@ locals {
       eviction_policy = "Delete"
       os_disk_size_gb = 48
       vnet_subnet_id  = azurerm_subnet.kube.id
-      zones = ["1"]
       node_labels = {
         "kube.travigo.app/role" = "datastore"
         "kubernetes.azure.com/scalesetpriority" = "spot"

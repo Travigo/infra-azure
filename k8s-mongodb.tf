@@ -4,7 +4,7 @@ resource "helm_release" "mongodb-operator" {
   repository = "https://mongodb.github.io/helm-charts"
   chart      = "community-operator"
 
-  version = "0.10.0"
+  version = "0.13.0"
 
   set {
     name  = "operator.resources.limits.cpu"
@@ -58,7 +58,7 @@ resource "kubernetes_manifest" "mongodb-database-crd" {
     spec = {
       members = 1
       type = "ReplicaSet"
-      version = "7.0.18"
+      version = "8.0.8"
 
       security = {
         authentication = {
@@ -97,7 +97,7 @@ resource "kubernetes_manifest" "mongodb-database-crd" {
                 name = "data-volume"
               }
               spec = {
-                storageClassName = "premium2-disk-sc"
+                storageClassName = "managed-premium"
                 resources = {
                   requests = {
                     storage = "100Gi"
