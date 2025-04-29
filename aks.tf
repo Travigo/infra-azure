@@ -16,6 +16,10 @@ locals {
         "kubernetes.azure.com/scalesetpriority=spot:NoSchedule",
         "kube.travigo.app/role=datastore:NoSchedule",
       ]
+
+      enable_auto_scaling = true
+      min_count = 1
+      max_count = 1
     },
     "workers" = {
       name            = "workers"
@@ -31,6 +35,10 @@ locals {
       node_taints = [
         "kubernetes.azure.com/scalesetpriority=spot:NoSchedule"
       ]
+
+      enable_auto_scaling = true
+      min_count = 1
+      max_count = 1
     },
     "medium-batch" = {
       name            = "mbatch"
@@ -55,7 +63,7 @@ locals {
     },
     "large-batch" = {
       name            = "lbatch"
-      vm_size         = "Standard_D8s_v6"
+      vm_size         = "Standard_D16s_v6"
       node_count      = 0
       priority        = "Spot"
       eviction_policy = "Delete"
