@@ -4,6 +4,11 @@ variable "cloudflare_zone" {
   type        = string
 }
 
+variable "cloudflare_root_domain" {
+  description = "The root domain for the Cloudflare Zone"
+  type        = string
+}
+
 variable "cloudflare_account_id" {
   description = "The Cloudflare UUID for the Account the Zone lives in"
   type        = string
