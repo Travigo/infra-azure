@@ -100,7 +100,7 @@ resource "kubernetes_manifest" "mongodb-database-crd" {
                 storageClassName = "managed-premium"
                 resources = {
                   requests = {
-                    storage = "100Gi"
+                    storage = "512Gi"
                   }
                 }
               }
@@ -135,7 +135,7 @@ resource "kubernetes_manifest" "mongodb-database-crd" {
                   resources = {
                     limits = {
                       cpu = "8"
-                      memory = "30Gi"
+                      memory = "60Gi"
                     }
                     requests = {
                       cpu = "0.1"
